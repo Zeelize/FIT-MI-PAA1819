@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 
+// ReSharper disable once CheckNamespace
 namespace paa_hw1
 {
     public class BruteForce
     {
-        private readonly List<int> _prices;
-        private readonly List<int> _weights;
-        private readonly int _items;
+        //private readonly List<int> _prices;
+        //private readonly List<int> _weights;
+        private readonly List<Tuple<int, int>> _items;
+        private readonly int _numItems;
         private readonly int _capacity;
         
         // Solutions
@@ -18,29 +20,16 @@ namespace paa_hw1
         public readonly List<byte> BestItems;
         
 
-        public BruteForce()
+        public BruteForce(Instance inst)
         {
             // Init variables
-            _prices = new List<int>();
-            _weights = new List<int>();
             Found = false;
 
             // Fill variables with exmaple data
-            _items = 3;
-            _capacity = 5;
-            _prices.Add(10);
-            _prices.Add(20);
-            _prices.Add(30);
-            _weights.Add(2);
-            _weights.Add(3);
-            _weights.Add(5);
-
-            // Check if all variables are right set
-            if (_prices.Count != _weights.Count || _prices.Count != _items)
-            {
-                return;
-            }
-
+            _items = inst.Items;
+            _numItems = inst.NumberOfItems;
+            _capacity = inst.Capacity;
+            
             // Calculate best possible combination with brute force
             // With recursion -> every single item has to branches -> take it or not take it
             var solution = RecursionSolver(0, 0, 0, new List<byte>());
@@ -54,11 +43,11 @@ namespace paa_hw1
         
         private Tuple<int, int, List<byte>> RecursionSolver(int index, int currentWeight, int currentPrice, List<byte> currentItems) {
             // If index is bigger than List count do not continue 
-            if (index >= _items) return Tuple.Create(currentWeight, currentPrice, currentItems);
+            if (index >= _numItems) return Tuple.Create(currentWeight, currentPrice, currentItems);
             
             // Take price and weight from List
-            var price = _prices[index];
-            var weight = _weights[index];
+            var price = _items[index].Item2;
+            var weight = _items[index].Item1;
             index++;
             
             // Returning variables
