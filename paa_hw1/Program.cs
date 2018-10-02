@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace paa_hw1
@@ -41,6 +42,10 @@ namespace paa_hw1
             }
             
             // Run every instance for both types of solution
+            var p = Process.GetCurrentProcess();
+            //var watch = new Stopwatch();
+            //watch.Start();
+            var startUserProcessorTm = p.UserProcessorTime.TotalMilliseconds;
             foreach (var inst in instances)
             {
                 // BruteForce algorithm
@@ -60,6 +65,10 @@ namespace paa_hw1
                 // Price-Weight algorithm
                 //Console.WriteLine("\nSolve with price-weight distribution!");   
             }
+            var endUserProcessorTm = p.UserProcessorTime.TotalMilliseconds;
+            //watch.Stop();
+            Console.WriteLine(endUserProcessorTm - startUserProcessorTm);
+            //Console.WriteLine(watch.Elapsed.TotalMilliseconds);
         }
     }
 }
