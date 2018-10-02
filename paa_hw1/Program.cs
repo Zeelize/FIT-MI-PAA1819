@@ -61,14 +61,15 @@ namespace paa_hw1
                     }
                     Console.Write("\n");
                 }
-            
-                // Price-Weight algorithm
-                //Console.WriteLine("\nSolve with price-weight distribution!");   
             }
             var endUserProcessorTm = p.UserProcessorTime.TotalMilliseconds;
             //watch.Stop();
             Console.WriteLine(endUserProcessorTm - startUserProcessorTm);
             //Console.WriteLine(watch.Elapsed.TotalMilliseconds);
+            
+            // Price-Weight algorithm
+            //Console.WriteLine("\nSolve with price-weight distribution!");
+            // TODO
         }
     }
 }
