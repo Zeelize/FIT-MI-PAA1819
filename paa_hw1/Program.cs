@@ -3,44 +3,32 @@ using System.Collections.Generic;
 
 namespace paa_hw1
 {
-    class Program
+    internal class Program
     {
-        private List<int> _prices;
-        private List<int> _weights;
-        private int _items;
-        private int _capacity;
-        
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             // Knapback problem
             Console.WriteLine("Knapback problem!");
+            
+            // BruteForce algorithm
+            Console.WriteLine("\nSolve with recursion brute force!");
+            var bruteForce = new BruteForce();
+            if (!bruteForce.Found) Console.WriteLine("Does not have solution!");
+            else
+            {
+                Console.WriteLine("Best found price: " + bruteForce.BestPrice);
+                Console.WriteLine("Weight of solution: " + bruteForce.BestWeight);
+                Console.Write("Vector of items: ");
+                foreach (var item in bruteForce.BestItems)
+                {
+                    Console.Write(item + " ");
+                }
+                Console.Write("\n");
+            }
+            
+            // Price-Weight algorithm
+            Console.WriteLine("\nSolve with price-weight distribution!");
 
-            // Init variables
-            _prices = new List<int>();
-            _weights = new List<int>();
-
-            // Fill variables with exmaple data
-            _items = 3;
-            capacity = 5;
-            prices.Add(10);
-            prices.Add(20);
-            prices.Add(30);
-            weights.Add(2);
-            weights.Add(3);
-            weights.Add(5);
-
-            // Check if all variables are right set
-            // TODO
-
-            // Calculate best possible combination with brute force
-            // With recursion -> every single item has to branches -> take it or not take it
-
-
-        }
-
-        private int RecursionSolver(int index, int currentCapacity) {
-            // If index is bigger than List count 
-            // TODO
         }
     }
 }
