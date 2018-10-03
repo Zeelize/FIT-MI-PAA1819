@@ -22,17 +22,17 @@ namespace paa_hw1
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    var splitted = line.Split(' ');
+                    var split = line.Split(' ');
                     // Parse line into instance
-                    var id = int.Parse(splitted[0]);
-                    var n = int.Parse(splitted[1]);
-                    var cap = int.Parse(splitted[2]);
+                    var id = int.Parse(split[0]);
+                    var n = int.Parse(split[1]);
+                    var cap = int.Parse(split[2]);
 
                     var index = 3;
                     var items = new List<Tuple<int, int>>();
                     for (var i = 0; i < n; i++)
                     {
-                        items.Add(Tuple.Create(int.Parse(splitted[index]), int.Parse(splitted[index + 1])));
+                        items.Add(Tuple.Create(int.Parse(split[index]), int.Parse(split[index + 1])));
                         index += 2;
                     }
                     
@@ -69,7 +69,21 @@ namespace paa_hw1
             
             // Price-Weight algorithm
             //Console.WriteLine("\nSolve with price-weight distribution!");
-            // TODO
+            //var watch = new Stopwatch();
+            //watch.Start();
+            startUserProcessorTm = p.UserProcessorTime.TotalMilliseconds;
+            foreach (var inst in instances)
+            {
+                // PriceWeight algorithm
+                Console.Write(inst.Id + " " + inst.NumberOfItems + " PW: ");
+                var priceWeight = new PriceWeightRatio(inst);
+                if (!priceWeight.Found) Console.Write("Does not have solution!");
+                else Console.Write(priceWeight.BestPrice + "\n");
+            }
+            endUserProcessorTm = p.UserProcessorTime.TotalMilliseconds;
+            //watch.Stop();
+            Console.WriteLine(endUserProcessorTm - startUserProcessorTm);
+
         }
     }
 }
