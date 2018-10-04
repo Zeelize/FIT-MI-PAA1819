@@ -12,7 +12,7 @@ namespace paa_hw1
         private readonly int _capacity;
         
         // Solutions
-        public bool Found;
+        //public bool Found;
         public int BestPrice;
         //public readonly int BestWeight;
         //public readonly List<byte> BestItems;
@@ -20,7 +20,7 @@ namespace paa_hw1
         public PriceWeightRatio(Instance inst)
         {
             // Init variables
-            Found = false;
+            //Found = false;
 
             // Fill variables with example data
             _numItems = inst.NumberOfItems;
@@ -45,7 +45,7 @@ namespace paa_hw1
                     currentPrice += _items[index].Item2;
                     currentWeight += _items[index].Item1;
 
-                    Found = true;
+                    //Found = true;
                 }
 
                 index++;
