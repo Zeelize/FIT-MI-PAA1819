@@ -40,11 +40,18 @@ namespace paa_hw1
                     instances.Add(new Instance(id, n, cap, items));
                 }
             }
+
+            // ReSharper disable once InconsistentNaming
+            const int NUMBER_OF_RUNS = 2000;
+            var allBfTimes = 0.0;
+            var allPwTimes = 0.0;
             
             // Prepare Lists for best prices
             var bfPrices = new List<int>();
             var pwPrices = new List<int>();
-            
+
+            for (var i = 0; i < NUMBER_OF_RUNS; i++)
+            {
             // Run every instance for both types of solution
             //var p = Process.GetCurrentProcess();
             var watchBf = new Stopwatch();
@@ -54,7 +61,7 @@ namespace paa_hw1
             {
                 // BruteForce algorithm
                 var bruteForce = new BruteForce(inst);
-                bfPrices.Add(bruteForce.BestPrice);
+                if (i == 0) bfPrices.Add(bruteForce.BestPrice);
                 /*Console.Write(inst.Id + " " + inst.NumberOfItems + " BF: ");
                 if (!bruteForce.Found) Console.Write("Does not have solution!");
                 else
@@ -71,7 +78,8 @@ namespace paa_hw1
             watchBf.Stop();
             //Console.WriteLine(endUserProcessorTm - startUserProcessorTm);
             //Console.WriteLine("BF: " + watchBf.Elapsed.TotalMilliseconds);
-            var bfTime = watchBf.Elapsed.TotalMilliseconds; 
+            var bfTime = watchBf.Elapsed.TotalMilliseconds;
+                allBfTimes += bfTime;
             
             // Price-Weight algorithm
             //Console.WriteLine("\nSolve with price-weight distribution!");
@@ -83,7 +91,7 @@ namespace paa_hw1
             {
                 // PriceWeight algorithm
                 var priceWeight = new PriceWeightRatio(inst);
-                pwPrices.Add(priceWeight.BestPrice);
+                if (i == 0)  pwPrices.Add(priceWeight.BestPrice);
                 /*Console.Write(inst.Id + " " + inst.NumberOfItems + " PW: ");
                 if (!priceWeight.Found) Console.Write("Does not have solution!");
                 else Console.Write(priceWeight.BestPrice + "\n");*/
@@ -93,6 +101,9 @@ namespace paa_hw1
             //Console.WriteLine(endUserProcessorTm - startUserProcessorTm);
             //Console.WriteLine("PW: " + watchPw.Elapsed.TotalMilliseconds);
             var pwTime = watchPw.Elapsed.TotalMilliseconds;
+                allPwTimes += pwTime;
+
+            }
             
             // Output
             if (instances.Count != bfPrices.Count || instances.Count != pwPrices.Count ||
@@ -108,11 +119,12 @@ namespace paa_hw1
                 avgMistake += mistake;
                 if (mistake > maxMistake) maxMistake = mistake;
             }
-            Console.WriteLine("BF Time: " + bfTime);
-            Console.WriteLine("PW Time: " + pwTime);
-            Console.WriteLine("Max Mistake: " + maxMistake);
-            Console.WriteLine("Avg Mistake: " + (double)(avgMistake / instances.Count));
-            // TODO Mistake to with percentage
+            
+            Console.WriteLine("\nNumber of runs: " + NUMBER_OF_RUNS);
+            Console.WriteLine("BF Avg Time: " + allBfTimes / NUMBER_OF_RUNS);
+            Console.WriteLine("PW Avg Time: " + allPwTimes / NUMBER_OF_RUNS);
+            Console.WriteLine("Max Mistake: " + Math.Round(maxMistake * 100, 3));
+            Console.WriteLine("Avg Mistake: " + Math.Round((double)(avgMistake / instances.Count) * 100, 3));
         }
     }
 }
