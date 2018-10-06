@@ -52,6 +52,7 @@ namespace paa_hw1
 
             for (var i = 0; i < NUMBER_OF_RUNS; i++)
             {
+                Console.WriteLine(i);
             // Run every instance for both types of solution
             //var p = Process.GetCurrentProcess();
             var watchBf = new Stopwatch();
