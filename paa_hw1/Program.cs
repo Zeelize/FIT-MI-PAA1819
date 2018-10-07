@@ -60,6 +60,7 @@ namespace paa_hw1
             //var startUserProcessorTm = p.UserProcessorTime.TotalMilliseconds;
             foreach (var inst in instances)
             {
+                continue;
                 // BruteForce algorithm
                 var bruteForce = new BruteForce(inst);
                 if (i == 0) bfPrices.Add(bruteForce.BestPrice);
@@ -107,6 +108,7 @@ namespace paa_hw1
             }
             
             // Output
+            /*
             if (instances.Count != bfPrices.Count || instances.Count != pwPrices.Count ||
                 pwPrices.Count != bfPrices.Count) return;
 
@@ -120,12 +122,13 @@ namespace paa_hw1
                 avgMistake += mistake;
                 if (mistake > maxMistake) maxMistake = mistake;
             }
+            */
             
             Console.WriteLine("\nNumber of runs: " + NUMBER_OF_RUNS);
-            Console.WriteLine("BF Avg Time: " + allBfTimes / NUMBER_OF_RUNS);
+            //Console.WriteLine("BF Avg Time: " + allBfTimes / NUMBER_OF_RUNS);
             Console.WriteLine("PW Avg Time: " + allPwTimes / NUMBER_OF_RUNS);
-            Console.WriteLine("Max Mistake: " + Math.Round(maxMistake * 100, 3));
-            Console.WriteLine("Avg Mistake: " + Math.Round((double)(avgMistake / instances.Count) * 100, 3));
+            //Console.WriteLine("Max Mistake: " + Math.Round(maxMistake * 100, 3));
+            //Console.WriteLine("Avg Mistake: " + Math.Round((double)(avgMistake / instances.Count) * 100, 3));
         }
     }
 }
