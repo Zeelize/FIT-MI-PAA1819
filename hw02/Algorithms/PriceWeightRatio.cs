@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using paa_hw2.Structs;
 
 // ReSharper disable once CheckNamespace
-namespace paa_hw1
+namespace paa_hw2.Algorithms
 {
     public class PriceWeightRatio
     {

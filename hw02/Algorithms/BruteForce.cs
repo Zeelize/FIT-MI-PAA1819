@@ -1,30 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using paa_hw2.Structs;
 
 // ReSharper disable once CheckNamespace
-namespace paa_hw1
+namespace paa_hw2.Algorithms
 {
     public class BruteForce
     {
-        //private readonly List<int> _prices;
-        //private readonly List<int> _weights;
         private readonly List<Tuple<int, int>> _items;
         private readonly int _numItems;
         private readonly int _capacity;
         
         // Solutions
         public readonly int BestPrice;
-        //public readonly int BestWeight;
-        //public readonly List<byte> BestItems;
         
-
         public BruteForce(Instance inst)
         {
-            // Init variables
-            //Found = false;
-
-            // Fill variables with exmaple data
+            // Fill variables with example data
             _items = inst.Items;
             _numItems = inst.NumberOfItems;
             _capacity = inst.Capacity;
@@ -34,14 +26,11 @@ namespace paa_hw1
             var solution = RecursionSolver(0, 0, 0/*, new List<byte>()*/);
             
             BestPrice = solution.Item2;
-            //BestWeight = solution.Item1;
-            //BestItems = solution.Item3;
-            //Found = true;
         }
         
-        private Tuple<int, int/*, List<byte>*/> RecursionSolver(int index, int currentWeight, int currentPrice/*, List<byte> currentItems*/) {
+        private Tuple<int, int> RecursionSolver(int index, int currentWeight, int currentPrice) {
             // If index is bigger than List count do not continue 
-            if (index >= _numItems) return Tuple.Create(currentWeight, currentPrice/*, currentItems*/);
+            if (index >= _numItems) return Tuple.Create(currentWeight, currentPrice);
             
             // Take price and weight from List
             var price = _items[index].Item2;
@@ -49,16 +38,16 @@ namespace paa_hw1
             index++;
             
             // Returning variables
-            Tuple<int, int/*, List<byte>*/> added = null;
+            Tuple<int, int> added = null;
 
             // If you can put it in, do it
             if (weight + currentWeight <= _capacity)
             {
-                added = RecursionSolver(index, weight + currentWeight, price + currentPrice/*, currentItems.Concat(new []{(byte)1}).ToList()*/);
+                added = RecursionSolver(index, weight + currentWeight, price + currentPrice);
             }
             
             // Do not put it in
-            var notAdded = RecursionSolver(index, currentWeight, currentPrice/*, currentItems.Concat(new []{(byte)0}).ToList()*/);
+            var notAdded = RecursionSolver(index, currentWeight, currentPrice);
             
             // Return better solution
             if (added == null) return notAdded;
