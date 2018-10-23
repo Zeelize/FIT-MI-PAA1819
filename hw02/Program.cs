@@ -49,12 +49,14 @@ namespace paa_hw2
             var allBbTimes = 0.0;
             var allDynamicPriceTimes = 0.0;
             var allDynamicWeightTimes = 0.0;
+            var allFptasTimes = 0.0;
             
             // Prepare Lists for best prices
             var bfPrices = new List<int>();
             var bbPrices = new List<int>();
             var dynamicPricePrices = new List<int>();
             var dynamicWeightPrices = new List<int>();
+            var fptasPrices = new List<int>();
 
             for (var i = 0; i < NUMBER_OF_RUNS; i++)
             {
@@ -111,7 +113,16 @@ namespace paa_hw2
                 allDynamicWeightTimes += watchDynamicWeight.Elapsed.TotalMilliseconds;
                 //*******************************************************
 
-                // TODO FPTAS algorithm
+                // FPTAS algorithm
+                var watchFptas = new Stopwatch();
+                watchFptas.Start();
+                foreach (var inst in instances)
+                {
+                    var fptas = new Fptas(inst, 0.5);
+                    if (i == 0) fptasPrices.Add(fptas.BestPrice);
+                }
+                watchFptas.Stop();
+                allFptasTimes += watchFptas.Elapsed.TotalMilliseconds;
             }
             
             Console.WriteLine("\n" + args[0]);
