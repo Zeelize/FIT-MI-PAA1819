@@ -46,7 +46,7 @@ namespace paa_hw2
             // ReSharper disable once InconsistentNaming
             const int NUMBER_OF_RUNS = 2000;
             // ReSharper disable once InconsistentNaming
-            const double EPSILON = 0.5;
+            const double ACCURACY = 0.9;
             var allBbTimes = 0.0;
             var allDynamicPriceTimes = 0.0;
             var allDynamicWeightTimes = 0.0;
@@ -103,7 +103,7 @@ namespace paa_hw2
                 watchFptas.Start();
                 foreach (var inst in instances)
                 {
-                    var fptas = new Fptas(inst, EPSILON);
+                    var fptas = new Fptas(inst, ACCURACY);
                     if (i == 0) fptasPrices.Add(fptas.BestPrice);
                 }
                 watchFptas.Stop();
@@ -130,7 +130,7 @@ namespace paa_hw2
             Console.WriteLine("Dynamic Price Avg Time: " + Math.Round(allDynamicPriceTimes / NUMBER_OF_RUNS, 4));
             Console.WriteLine("Dynamic Weight Avg Time: " + Math.Round(allDynamicWeightTimes / NUMBER_OF_RUNS, 4));
             Console.WriteLine("FPTAS Avg Time: " + Math.Round(allFptasTimes / NUMBER_OF_RUNS, 4));
-            Console.WriteLine("\t-epsilon: " + EPSILON);
+            Console.WriteLine("\t-epsilon: " + ACCURACY);
             Console.WriteLine("\t-avg mistake: " + Math.Round((double) (avgMistake / instances.Count) * 100, 3));
             Console.WriteLine("\t-max mistake: " + Math.Round(maxMistake * 100, 3));
         }
