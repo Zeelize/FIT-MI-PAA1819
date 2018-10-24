@@ -126,10 +126,10 @@ namespace paa_hw2
             //*******************************************************
             Console.WriteLine("\n" + args[0]);
             Console.WriteLine("Number of runs: " + NUMBER_OF_RUNS);
-            Console.WriteLine("BB Avg Time: " + allBbTimes / NUMBER_OF_RUNS);
-            Console.WriteLine("Dynamic Price Avg Time: " + allDynamicPriceTimes / NUMBER_OF_RUNS);
-            Console.WriteLine("Dynamic Weight Avg Time: " + allDynamicWeightTimes / NUMBER_OF_RUNS);
-            Console.WriteLine("FPTAS Avg Time: " + allFptasTimes / NUMBER_OF_RUNS);
+            Console.WriteLine("BB Avg Time: " + Math.Round(allBbTimes / NUMBER_OF_RUNS, 4));
+            Console.WriteLine("Dynamic Price Avg Time: " + Math.Round(allDynamicPriceTimes / NUMBER_OF_RUNS, 4));
+            Console.WriteLine("Dynamic Weight Avg Time: " + Math.Round(allDynamicWeightTimes / NUMBER_OF_RUNS, 4));
+            Console.WriteLine("FPTAS Avg Time: " + Math.Round(allFptasTimes / NUMBER_OF_RUNS, 4));
             Console.WriteLine("\t-epsilon: " + EPSILON);
             Console.WriteLine("\t-avg mistake: " + Math.Round((double) (avgMistake / instances.Count) * 100, 3));
             Console.WriteLine("\t-max mistake: " + Math.Round(maxMistake * 100, 3));
