@@ -45,14 +45,14 @@ namespace paa_hw2
 
             // ReSharper disable once InconsistentNaming
             const int NUMBER_OF_RUNS = 2000;
-            var allBfTimes = 0.0;
+            // ReSharper disable once InconsistentNaming
+            const double EPSILON = 0.5;
             var allBbTimes = 0.0;
             var allDynamicPriceTimes = 0.0;
             var allDynamicWeightTimes = 0.0;
             var allFptasTimes = 0.0;
             
             // Prepare Lists for best prices
-            var bfPrices = new List<int>();
             var bbPrices = new List<int>();
             var dynamicPricePrices = new List<int>();
             var dynamicWeightPrices = new List<int>();
@@ -62,25 +62,11 @@ namespace paa_hw2
             {
                 Console.WriteLine("RUN: " + i);
                 
-                // BruteForce algorithm
-                var watchBf = new Stopwatch();
-                watchBf.Start();
-                foreach (var inst in instances)
-                {
-                    continue;
-                    var bruteForce = new BruteForce(inst);
-                    if (i == 0) bfPrices.Add(bruteForce.BestPrice);
-                }
-                watchBf.Stop();
-                allBfTimes += watchBf.Elapsed.TotalMilliseconds;
-                //*******************************************************
-
                 // Branch and Bound algorithm
                 var watchBb = new Stopwatch();
                 watchBb.Start();
                 foreach (var inst in instances)
                 {
-                    continue;
                     var branchBound = new BbMethod(inst);
                     if (i == 0) bbPrices.Add(branchBound.BestPrice);
                 }
@@ -93,7 +79,6 @@ namespace paa_hw2
                 watchDynamicPrice.Start();
                 foreach (var inst in instances)
                 {
-                    continue;
                     var dynamic = new DynamicPrice(inst);
                     if (i == 0) dynamicPricePrices.Add(dynamic.BestPrice);
                 }
@@ -118,19 +103,36 @@ namespace paa_hw2
                 watchFptas.Start();
                 foreach (var inst in instances)
                 {
-                    var fptas = new Fptas(inst, 0.5);
+                    var fptas = new Fptas(inst, EPSILON);
                     if (i == 0) fptasPrices.Add(fptas.BestPrice);
                 }
                 watchFptas.Stop();
                 allFptasTimes += watchFptas.Elapsed.TotalMilliseconds;
             }
             
+            //*******************************************************
+            // Check mistake (OPT - PRICE)/OPT * 100 = X%
+            double maxMistake = 0;
+            double avgMistake = 0;
+            for (var i = 0; i < instances.Count; i++)
+            {
+                var mistake = (double) (bbPrices[i] - fptasPrices[i]) / (double) bbPrices[i];
+                Console.WriteLine(instances[i].Id + " " + bbPrices[i] + " " + fptasPrices[i] + " " + mistake);
+
+                avgMistake += mistake;
+                if (mistake > maxMistake) maxMistake = mistake;
+            }
+            
+            //*******************************************************
             Console.WriteLine("\n" + args[0]);
             Console.WriteLine("Number of runs: " + NUMBER_OF_RUNS);
-            Console.WriteLine("BF Avg Time: " + allBfTimes / NUMBER_OF_RUNS);
             Console.WriteLine("BB Avg Time: " + allBbTimes / NUMBER_OF_RUNS);
             Console.WriteLine("Dynamic Price Avg Time: " + allDynamicPriceTimes / NUMBER_OF_RUNS);
             Console.WriteLine("Dynamic Weight Avg Time: " + allDynamicWeightTimes / NUMBER_OF_RUNS);
+            Console.WriteLine("FPTAS Avg Time: " + allFptasTimes / NUMBER_OF_RUNS);
+            Console.WriteLine("\t-epsilon: " + EPSILON);
+            Console.WriteLine("\t-avg mistake: " + Math.Round((double) (avgMistake / instances.Count) * 100, 3));
+            Console.WriteLine("\t-max mistake: " + Math.Round(maxMistake * 100, 3));
         }
     }
 }
