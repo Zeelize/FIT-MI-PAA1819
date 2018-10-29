@@ -46,7 +46,7 @@ namespace paa_hw2
             // ReSharper disable once InconsistentNaming
             const int NUMBER_OF_RUNS = 2000;
             // ReSharper disable once InconsistentNaming
-            const double ACCURACY = 0.9;
+            const double ACCURACY = 0.99;
             var allBbTimes = 0.0;
             var allDynamicPriceTimes = 0.0;
             var allDynamicWeightTimes = 0.0;
@@ -60,7 +60,7 @@ namespace paa_hw2
 
             for (var i = 0; i < NUMBER_OF_RUNS; i++)
             {
-                Console.WriteLine("RUN: " + i);
+                //Console.WriteLine("RUN: " + i);
                 
                 // Branch and Bound algorithm
                 var watchBb = new Stopwatch();
@@ -130,7 +130,7 @@ namespace paa_hw2
             Console.WriteLine("Dynamic Price Avg Time: " + Math.Round(allDynamicPriceTimes / NUMBER_OF_RUNS, 4));
             Console.WriteLine("Dynamic Weight Avg Time: " + Math.Round(allDynamicWeightTimes / NUMBER_OF_RUNS, 4));
             Console.WriteLine("FPTAS Avg Time: " + Math.Round(allFptasTimes / NUMBER_OF_RUNS, 4));
-            Console.WriteLine("\t-epsilon: " + ACCURACY);
+            Console.WriteLine("\t-accuracy: " + ACCURACY * 100  + "%");
             Console.WriteLine("\t-avg mistake: " + Math.Round((double) (avgMistake / instances.Count) * 100, 3));
             Console.WriteLine("\t-max mistake: " + Math.Round(maxMistake * 100, 3));
         }
