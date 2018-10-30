@@ -44,9 +44,9 @@ namespace paa_hw2
             }
 
             // ReSharper disable once InconsistentNaming
-            const int NUMBER_OF_RUNS = 2000;
+            const int NUMBER_OF_RUNS = 1;
             // ReSharper disable once InconsistentNaming
-            const double ACCURACY = 0.99;
+            const double EPSILON = 0.1;
             var allBbTimes = 0.0;
             var allDynamicPriceTimes = 0.0;
             var allDynamicWeightTimes = 0.0;
@@ -103,7 +103,7 @@ namespace paa_hw2
                 watchFptas.Start();
                 foreach (var inst in instances)
                 {
-                    var fptas = new Fptas(inst, ACCURACY);
+                    var fptas = new Fptas(inst, EPSILON);
                     if (i == 0) fptasPrices.Add(fptas.BestPrice);
                 }
                 watchFptas.Stop();
@@ -116,8 +116,11 @@ namespace paa_hw2
             double avgMistake = 0;
             for (var i = 0; i < instances.Count; i++)
             {
-                var mistake = (double) (bbPrices[i] - fptasPrices[i]) / (double) bbPrices[i];
+                var mistake = Math.Abs((double) (bbPrices[i] - fptasPrices[i]) / (double) bbPrices[i]);
                 Console.WriteLine(instances[i].Id + " " + bbPrices[i] + " " + fptasPrices[i] + " " + mistake);
+                
+                // Debug line
+                if (bbPrices[i] != dynamicPricePrices[i]) Console.WriteLine("!!!!!!!!!!! " + dynamicPricePrices[i]);
 
                 avgMistake += mistake;
                 if (mistake > maxMistake) maxMistake = mistake;
@@ -130,7 +133,7 @@ namespace paa_hw2
             Console.WriteLine("Dynamic Price Avg Time: " + Math.Round(allDynamicPriceTimes / NUMBER_OF_RUNS, 4));
             Console.WriteLine("Dynamic Weight Avg Time: " + Math.Round(allDynamicWeightTimes / NUMBER_OF_RUNS, 4));
             Console.WriteLine("FPTAS Avg Time: " + Math.Round(allFptasTimes / NUMBER_OF_RUNS, 4));
-            Console.WriteLine("\t-accuracy: " + ACCURACY * 100  + "%");
+            Console.WriteLine("\t-epsilon: " + EPSILON * 100  + "%");
             Console.WriteLine("\t-avg mistake: " + Math.Round((double) (avgMistake / instances.Count) * 100, 3));
             Console.WriteLine("\t-max mistake: " + Math.Round(maxMistake * 100, 3));
         }

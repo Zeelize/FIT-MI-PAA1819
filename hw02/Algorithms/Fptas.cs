@@ -20,7 +20,7 @@ namespace paa_hw2.Algorithms
         ///     http://math.mit.edu/~goemans/18434S06/knapsack-katherine.pdf
         ///     https://en.wikipedia.org/wiki/Knapsack_problem
         /// </summary>
-        public Fptas(Instance inst, double accuracy)
+        public Fptas(Instance inst, double e)
         {
             // Fill variables with example data
             _items = inst.Items;
@@ -31,7 +31,6 @@ namespace paa_hw2.Algorithms
             var p = _items.Max(r => r.Item2);
             
             // Calcul e and K
-            var e = 1.0 - Math.Min(1.0, Math.Max(0.0, accuracy));
             var k = e * ((double)p / _numItems);
             
             // create new array for new prices
