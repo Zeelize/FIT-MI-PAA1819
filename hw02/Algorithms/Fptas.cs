@@ -55,28 +55,25 @@ namespace paa_hw2.Algorithms
             StartAlgorithm();
             
             // Find best solution
-            var result = -1;
+            var j = -1;
             for (var i = _allPrices; i >= 0; i--)
             {
                 if (_array[i, _numItems] == null || _array[i, _numItems].Value > capacity) continue;
-                BestPrice = (int)((double)i * k);
-                //Console.Write("Result: " + (int)((double)i * k));
-                result = i;
-                return;
+                //BestPrice = (int)((double)i * k);
+                j = i;
+                break;
             }
             
             // Backtrack of an items
-            var j = _allPrices;
             for (var i = _numItems; i > 0; i--)
             {
-                if (result <= 0) break;
-                if (result == _array[j, i - 1]) continue;
+                if (j <= 0) break;
+                if (_array[j, i] == _array[j, i - 1]) continue;
                 
                 BestPrice += _items[i - 1].Item2;
-                result -= _newP[i - 1];
+                //result -= _newP[i - 1];
                 j -= _newP[i - 1];
             }
-            Console.Write(" - BestPrice: " + BestPrice + "\n");
         }
         
         private void StartAlgorithm()

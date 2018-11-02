@@ -46,7 +46,7 @@ namespace paa_hw2
             // ReSharper disable once InconsistentNaming
             const int NUMBER_OF_RUNS = 1;
             // ReSharper disable once InconsistentNaming
-            const double EPSILON = 0.95;
+            const double EPSILON = 0.9;
             var allBbTimes = 0.0;
             var allDynamicPriceTimes = 0.0;
             var allDynamicWeightTimes = 0.0;
