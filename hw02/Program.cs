@@ -44,7 +44,7 @@ namespace paa_hw2
             }
 
             // ReSharper disable once InconsistentNaming
-            const int NUMBER_OF_RUNS = 1;
+            const int NUMBER_OF_RUNS = 2000;
             // ReSharper disable once InconsistentNaming
             const double EPSILON = 0.9;
             var allBbTimes = 0.0;
@@ -60,13 +60,14 @@ namespace paa_hw2
 
             for (var i = 0; i < NUMBER_OF_RUNS; i++)
             {
-                //Console.WriteLine("RUN: " + i);
+                Console.WriteLine("RUN: " + i);
                 
                 // Branch and Bound algorithm
                 var watchBb = new Stopwatch();
                 watchBb.Start();
                 foreach (var inst in instances)
                 {
+                    continue;
                     var branchBound = new BbMethod(inst);
                     if (i == 0) bbPrices.Add(branchBound.BestPrice);
                 }
@@ -79,6 +80,7 @@ namespace paa_hw2
                 watchDynamicPrice.Start();
                 foreach (var inst in instances)
                 {
+                    continue;
                     var dynamic = new DynamicPrice(inst);
                     if (i == 0) dynamicPricePrices.Add(dynamic.BestPrice);
                 }
@@ -116,12 +118,9 @@ namespace paa_hw2
             double avgMistake = 0;
             for (var i = 0; i < instances.Count; i++)
             {
-                var mistake = Math.Abs((double) (bbPrices[i] - fptasPrices[i]) / (double) bbPrices[i]);
-                Console.WriteLine(instances[i].Id + " " + bbPrices[i] + " " + fptasPrices[i] + " " + mistake);
+                var mistake = Math.Abs((double) (dynamicWeightPrices[i] - fptasPrices[i]) / (double) dynamicWeightPrices[i]);
+                Console.WriteLine(instances[i].Id + " " + dynamicWeightPrices[i] + " " + fptasPrices[i] + " " + mistake);
                 
-                // Debug line
-                if (bbPrices[i] != dynamicPricePrices[i]) Console.WriteLine("!!!!!!!!!!! " + dynamicPricePrices[i]);
-
                 avgMistake += mistake;
                 if (mistake > maxMistake) maxMistake = mistake;
             }
