@@ -44,61 +44,72 @@ namespace paa_hw3
             }
 
             // ReSharper disable once InconsistentNaming
-            const int NUMBER_OF_RUNS = 2000;
+            const int NUMBER_OF_RUNS = 1;
             // ReSharper disable once InconsistentNaming
-            const double EPSILON = 0.9;
-            var allBbTimes = 0.0;
-            var allDynamicPriceTimes = 0.0;
-            var allDynamicWeightTimes = 0.0;
+            var bbm = 0;
+            var dpm = 0;
+            var dwm = 0;
+            var pwm = 0; 
             
             // Prepare Lists for best prices
             var bbPrices = new List<int>();
             var dynamicPricePrices = new List<int>();
             var dynamicWeightPrices = new List<int>();
+            var priceWeightPrices = new List<int>();
             
-            //TODO FOR ALL ALGORITHM ADD MEASURE PARAMETER FOR COMPARISION
             for (var i = 0; i < NUMBER_OF_RUNS; i++)
             {
                 // Branch and Bound algorithm
                 var watchBb = new Stopwatch();
                 watchBb.Start();
+                var tmp = 0;
                 foreach (var inst in instances)
                 {
-                    continue;
                     var branchBound = new BbMethod(inst);
                     if (i == 0) bbPrices.Add(branchBound.BestPrice);
+                    tmp += branchBound.Measure;
                 }
                 watchBb.Stop();
-                allBbTimes += watchBb.Elapsed.TotalMilliseconds;
+                bbm = tmp / instances.Count;
                 //*******************************************************
                 
                 // Dynamic Price algorithm
                 var watchDynamicPrice = new Stopwatch();
                 watchDynamicPrice.Start();
+                tmp = 0;
                 foreach (var inst in instances)
                 {
-                    continue;
                     var dynamic = new DynamicPrice(inst);
                     if (i == 0) dynamicPricePrices.Add(dynamic.BestPrice);
+                    tmp += dynamic.Measure;
                 }
                 watchDynamicPrice.Stop();
-                allDynamicPriceTimes += watchDynamicPrice.Elapsed.TotalMilliseconds;
+                dpm = tmp / instances.Count;
                 //*******************************************************
                 
                 // Dynamic Weight algorithm
                 var watchDynamicWeight = new Stopwatch();
                 watchDynamicWeight.Start();
+                tmp = 0;
                 foreach (var inst in instances)
                 {
                     var dynamic = new DynamicWeight(inst);
                     if (i == 0) dynamicWeightPrices.Add(dynamic.BestPrice);
+                    tmp += dynamic.Measure;
                 }
                 watchDynamicWeight.Stop();
-                allDynamicWeightTimes += watchDynamicWeight.Elapsed.TotalMilliseconds;
+                dwm = tmp / instances.Count;
                 //*******************************************************
 
-                // TODO Add price weight ratio algorithm
-                
+                // Add price weight ratio algorithm
+                tmp = 0;
+                foreach (var inst in instances)
+                {
+                    var dynamic = new PriceWeightRatio(inst);
+                    if (i == 0) priceWeightPrices.Add(dynamic.BestPrice);
+                    tmp += dynamic.Measure;
+                }
+                pwm = tmp / instances.Count;
             }
             
             //*******************************************************
@@ -117,11 +128,10 @@ namespace paa_hw3
             
             //*******************************************************
             Console.WriteLine("\n" + args[0]);
-            Console.WriteLine("Number of runs: " + NUMBER_OF_RUNS);
-            Console.WriteLine("BB Avg Time: " + Math.Round(allBbTimes / NUMBER_OF_RUNS, 4));
-            Console.WriteLine("Dynamic Price Avg Time: " + Math.Round(allDynamicPriceTimes / NUMBER_OF_RUNS, 4));
-            Console.WriteLine("Dynamic Weight Avg Time: " + Math.Round(allDynamicWeightTimes / NUMBER_OF_RUNS, 4));
-            Console.WriteLine("\t-epsilon: " + EPSILON * 100  + "%");
+            Console.WriteLine("BB Measurement: " + bbm);
+            Console.WriteLine("Dynamic Price Measurement: " + dpm);
+            Console.WriteLine("Dynamic Weight Measurement: " + dwm);
+            Console.WriteLine("Price Weight Ratio Measurement: " + pwm);
             Console.WriteLine("\t-avg mistake: " + Math.Round((double) (avgMistake / instances.Count) * 100, 3));
             Console.WriteLine("\t-max mistake: " + Math.Round(maxMistake * 100, 3));
         }

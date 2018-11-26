@@ -11,6 +11,7 @@ namespace paa_hw3.Algorithms
         private readonly int _capacity;
         
         // Solutions
+        public int Measure;
         public int BestPrice;
         
         public BbMethod(Instance inst)
@@ -19,6 +20,7 @@ namespace paa_hw3.Algorithms
             _items = inst.Items;
             _numItems = inst.NumberOfItems;
             _capacity = inst.Capacity;
+            Measure = 0;
             
             // Calculate price and weight of all items
             var allPrices = 0;
@@ -49,6 +51,9 @@ namespace paa_hw3.Algorithms
                 // Cant be better than current best price, ignore this branch
                 return null;
             }
+            
+            // We are in new state, which we are trying solve
+            Measure++;
             
             // Take price and weight from List
             var price = _items[index].Item2;

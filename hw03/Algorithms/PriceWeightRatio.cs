@@ -15,6 +15,8 @@ namespace paa_hw3.Algorithms
         // Solutions
         //public bool Found;
         public int BestPrice;
+
+        public int Measure = 0;
         //public readonly int BestWeight;
         //public readonly List<byte> BestItems;
 
@@ -48,7 +50,9 @@ namespace paa_hw3.Algorithms
 
                     //Found = true;
                 }
-
+                
+                // new state 
+                Measure++;
                 index++;
             }
             

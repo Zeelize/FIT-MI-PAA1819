@@ -11,7 +11,8 @@ namespace paa_hw3.Algorithms
         private readonly int _capacity;
         private int[,] _array;
 
-        public int BestPrice;
+        public readonly int BestPrice;
+        public int Measure = 0;
         
         public DynamicWeight(Instance inst)
         {
@@ -36,6 +37,9 @@ namespace paa_hw3.Algorithms
             {
                 for (var i = 0; i <= _numItems; i++)
                 {
+                    // We are in new state
+                    Measure++;
+                    
                     // Check trivial
                     if (m == 0 || i == 0) continue;
 

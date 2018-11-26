@@ -12,6 +12,7 @@ namespace paa_hw3.Algorithms
         private int?[,] _array;
 
         public readonly int BestPrice = -1;
+        public int Measure = 0;
         
         public DynamicPrice(Instance inst)
         {
@@ -59,6 +60,9 @@ namespace paa_hw3.Algorithms
                 {
                     var tmpIndex = c - _items[i - 1].Item2;
 
+                    // We are in new state
+                    Measure++;
+                    
                     // If index is negative continue
                     if (tmpIndex < 0)
                     {
