@@ -1,3 +1,8 @@
+# Makefile stuff
+knapgen/knapcore.o
+knapgen/generator
+knapgen/knapgen.o
+
 # Common IntelliJ Platform excludes
 
 # User specific
