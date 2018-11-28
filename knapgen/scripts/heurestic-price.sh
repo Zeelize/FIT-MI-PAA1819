@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for value in {10000..40000..1000}
+for value in {11000..40000..2000}
 do
 	# run generator 
 	echo $value
