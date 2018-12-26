@@ -49,37 +49,30 @@ namespace paa_hw4
 
             //*******************************************************
             // Dynamic Weight algorithm
-            var watchDynamicWeight = new Stopwatch();
-            watchDynamicWeight.Start();
-            var tmp = 0;
             foreach (var inst in instances)
             {
                 var dynamic = new DynamicWeight(inst);
                 dynamicWeightPrices.Add(dynamic.BestPrice);
-                tmp += dynamic.Measure;
             }
-
-            watchDynamicWeight.Stop();
-            var dwm = tmp / instances.Count;
 
             //*******************************************************
             // TODO Simulated annealing
             var watchSa = new Stopwatch();
             watchSa.Start();
-            // zavislost relativni odhcylky na koeficientu ochlazovani
             foreach (var inst in instances)
             {
-                var sa = new SimulatedAnnealing(inst, 1000, 10, 0.95, 100);
+                var sa = new SimulatedAnnealing(inst, 400, 10, 0.95, 10);
                 var price = sa.SaSolver();
                 Console.WriteLine("FINAL: " + price);
                 
+                // Cooling coefficient
                 /*for (var i = 0.1; i <= 1; i += 0.05)
-                {
-                    var sa = new SimulatedAnnealing(inst, 1000, 10, i, 100);
-                    var price = sa.SaSolver();
-                    //saPrices.Add(price);
-                    Console.WriteLine(i + ";" + price);
-                }*/
+                    {
+                        var sa = new SimulatedAnnealing(inst, 1000, 10, i, 100);
+                        var price = sa.SaSolver();
+                        //saPrices.Add(price);
+                        Console.WriteLine(i + ";" + price);
+                    }*/
             }
 
             watchSa.Stop();
@@ -101,7 +94,6 @@ namespace paa_hw4
 
             //*******************************************************
             //Console.WriteLine("\n" + file);
-            //Console.WriteLine("Dynamic Weight Measurement: " + dwm);
             //Console.WriteLine("SA Measurement: " + saTime);
             //Console.WriteLine("\t-avg mistake: " + Math.Round((double) (avgMistake / instances.Count) * 100, 4));
             //Console.WriteLine("\t-max mistake: " + Math.Round(maxMistake * 100, 4));

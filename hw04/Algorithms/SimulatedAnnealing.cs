@@ -63,7 +63,7 @@ namespace paa_hw4.Algorithms
                     var newOpt = SetRandomValidOption();
                     
                     // compare
-                    bestPrice = FindBestSolution(bestPrice, newOpt);
+                    bestPrice = FindBestSolution(bestPrice, newOpt, temp);
                 }
 
                 temp *= COOLING_CONSTANT;
@@ -75,10 +75,10 @@ namespace paa_hw4.Algorithms
         private List<bool> SetRandomOption()
         {
             var opt = new List<bool>();
+            var rnd = new Random();
 
             for (var i = 0; i < _numItems; i++)
             {
-                var rnd = new Random();
                 opt.Add(rnd.Next() % 2 == 0);
             }
 
@@ -124,9 +124,22 @@ namespace paa_hw4.Algorithms
             return price;
         }
 
-        private int FindBestSolution(int bestPrice, List<bool> opt)
+        private int FindBestSolution(int bestPrice, List<bool> opt, double temp)
         {
-            return bestPrice < GetPriceForOption(opt) ? GetPriceForOption(opt) : bestPrice;
+            var rnd = new Random();
+            var newPrice = GetPriceForOption(opt);
+            var delta = newPrice - bestPrice;
+            // if the new distance is better, accept it
+            if (delta > 0)
+            {
+                return newPrice;
+            }
+
+            // if it is worse, accept it with prob level
+            var prob = rnd.NextDouble();
+            return prob < Math.Exp(delta/temp) ? newPrice : bestPrice;
+
+            //return bestPrice < GetPriceForOption(opt) ? GetPriceForOption(opt) : bestPrice;
         }
 
         private bool Frozen(double temp)
