@@ -56,7 +56,7 @@ namespace paa_hw4.Algorithms
 
             while (!Frozen(temp))
             {
-                Console.WriteLine(temp + ";" + bestPrice);
+                //Console.WriteLine(bestPrice);
                 for (var i = 0; i < STEPS; i++)
                 {
                     // find new state

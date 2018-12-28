@@ -45,8 +45,7 @@ namespace paa_hw4
             }
 
             var dynamicWeightPrices = new List<int>();
-            var saPrices = new List<int>();
-
+            
             //*******************************************************
             // Dynamic Weight algorithm
             foreach (var inst in instances)
@@ -56,28 +55,110 @@ namespace paa_hw4
             }
 
             //*******************************************************
-            // TODO Simulated annealing
-            var watchSa = new Stopwatch();
-            watchSa.Start();
-            foreach (var inst in instances)
+            // Cooling coefficient
+            Console.WriteLine("*********** COOLING COEFF *****************");
+            for (var i = 0.5; i <= 1; i += 0.05)
             {
-                var sa = new SimulatedAnnealing(inst, 400, 10, 0.95, 10);
-                var price = sa.SaSolver();
-                Console.WriteLine("FINAL: " + price);
+                double avgMistake = 0;
+                double avgTime = 0;
+                for (var j = 0; j < instances.Count; j++)
+                {
+                    var watchSa = new Stopwatch();
+                    watchSa.Start();
+                    
+                    var sa = new SimulatedAnnealing(instances[j], 1000, 10, i, 50);
+                    var price = sa.SaSolver();
+                    
+                    watchSa.Stop();
+                    
+                    avgTime += watchSa.Elapsed.TotalMilliseconds;
+                    
+                    var mistake = Math.Abs((double) (dynamicWeightPrices[j] - price) /
+                                           (double) dynamicWeightPrices[j]);
+                    avgMistake += mistake;
+                }
                 
-                // Cooling coefficient
-                /*for (var i = 0.1; i <= 1; i += 0.05)
-                    {
-                        var sa = new SimulatedAnnealing(inst, 1000, 10, i, 100);
-                        var price = sa.SaSolver();
-                        //saPrices.Add(price);
-                        Console.WriteLine(i + ";" + price);
-                    }*/
+                
+                var timeFinal = Math.Round((double) (avgTime / instances.Count), 4);
+                var avgFinal = Math.Round((double) (avgMistake / instances.Count) * 100, 4);
+                
+                // Count Mistake and time
+                Console.WriteLine("CC: " + i);
+                Console.WriteLine("Mistake: " + avgFinal);
+                Console.WriteLine("Time: " + timeFinal);
+                Console.WriteLine();
             }
+            
+            // Number of steps
+            Console.WriteLine("*********** STEPS *****************");
+            for (var i = 50; i <= 500; i += 50)
+            {
+                double avgMistake = 0;
+                double avgTime = 0;
+                for (var j = 0; j < instances.Count; j++)
+                {
+                    var watchSa = new Stopwatch();
+                    watchSa.Start();
+                    
+                    var sa = new SimulatedAnnealing(instances[j], 1000, 10, 0.9, i);
+                    var price = sa.SaSolver();
+                    
+                    watchSa.Stop();
+                    
+                    avgTime += watchSa.Elapsed.TotalMilliseconds;
+                    
+                    var mistake = Math.Abs((double) (dynamicWeightPrices[j] - price) /
+                                           (double) dynamicWeightPrices[j]);
+                    avgMistake += mistake;
+                }
+                
+                
+                var timeFinal = Math.Round((double) (avgTime / instances.Count), 4);
+                var avgFinal = Math.Round((double) (avgMistake / instances.Count) * 100, 4);
+                
+                // Count Mistake and time
+                Console.WriteLine("Steps: " + i);
+                Console.WriteLine("Mistake: " + avgFinal);
+                Console.WriteLine("Time: " + timeFinal);
+                Console.WriteLine();
+            }
+                
+            // Init temp
+            Console.WriteLine("*********** INIT TEMP *****************");
+            for (var i = 100; i <= 2000; i += 300)
+            {
+                double avgMistake = 0;
+                double avgTime = 0;
+                for (var j = 0; j < instances.Count; j++)
+                {
+                    var watchSa = new Stopwatch();
+                    watchSa.Start();
+                    
+                    var sa = new SimulatedAnnealing(instances[j], i, 10, 0.9, 50);
+                    var price = sa.SaSolver();
+                    
+                    watchSa.Stop();
+                    
+                    avgTime += watchSa.Elapsed.TotalMilliseconds;
+                    
+                    var mistake = Math.Abs((double) (dynamicWeightPrices[j] - price) /
+                                           (double) dynamicWeightPrices[j]);
+                    avgMistake += mistake;
+                }
+                
+                
+                var timeFinal = Math.Round((double) (avgTime / instances.Count), 4);
+                var avgFinal = Math.Round((double) (avgMistake / instances.Count) * 100, 4);
+                
+                // Count Mistake and time
+                Console.WriteLine("Init temp: " + i);
+                Console.WriteLine("Mistake: " + avgFinal);
+                Console.WriteLine("Time: " + timeFinal);
+                Console.WriteLine();
+            }
+           
 
-            watchSa.Stop();
-
-            var saTime = watchSa.Elapsed.TotalMilliseconds;
+            
 
             //*******************************************************
             // Check mistake (OPT - PRICE)/OPT * 100 = X%
