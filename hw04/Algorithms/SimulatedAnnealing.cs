@@ -19,6 +19,8 @@ namespace paa_hw4.Algorithms
         private readonly int _numItems;
         private readonly int _capacity;
 
+        private List<bool> _opt; 
+
         public SimulatedAnnealing(Instance inst)
         {
             // Set constants
@@ -49,8 +51,8 @@ namespace paa_hw4.Algorithms
 
         public int SaSolver()
         {
-            var initOpt = SetRandomValidOption();
-            var bestPrice = GetPriceForOption(initOpt);
+            _opt = SetRandomValidOption();
+            var bestPrice = GetPriceForOption(_opt);
 
             var temp = INIT_TEMP;
 
@@ -60,7 +62,7 @@ namespace paa_hw4.Algorithms
                 for (var i = 0; i < STEPS; i++)
                 {
                     // find new state
-                    var newOpt = SetRandomValidOption();
+                    var newOpt = SetRandomValidNeighbour(_opt);
                     
                     // compare
                     bestPrice = FindBestSolution(bestPrice, newOpt, temp);
@@ -94,6 +96,25 @@ namespace paa_hw4.Algorithms
             }
 
             return opt;
+        }
+
+        private List<bool> SetRandomNeighbour(List<bool> opt)
+        {
+            var rnd = new Random();
+            var i = rnd.Next(0, _numItems - 1);
+            opt[i] = !opt[i];
+            return opt;
+        }
+        
+        private List<bool> SetRandomValidNeighbour(List<bool> opt)
+        {
+            var newOpt = SetRandomOption();
+            while (GetWeightForOption(newOpt) > _capacity)
+            {
+                newOpt = SetRandomNeighbour(opt);
+            }
+
+            return newOpt;
         }
 
         private int GetWeightForOption(List<bool> opt)
@@ -132,13 +153,20 @@ namespace paa_hw4.Algorithms
             // if the new distance is better, accept it
             if (delta > 0)
             {
+                _opt = opt;
                 return newPrice;
             }
 
             // if it is worse, accept it with prob level
             var prob = rnd.NextDouble();
-            return prob < Math.Exp(delta/temp) ? newPrice : bestPrice;
+            if (prob < Math.Exp(delta / temp))
+            {
+                _opt = opt;
+                return newPrice;   
+            }
 
+            return bestPrice;
+            //return prob < Math.Exp(delta/temp) ? newPrice : bestPrice;
             //return bestPrice < GetPriceForOption(opt) ? GetPriceForOption(opt) : bestPrice;
         }
 

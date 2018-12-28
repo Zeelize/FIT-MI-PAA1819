@@ -45,7 +45,7 @@ namespace paa_hw4
             }
 
             var dynamicWeightPrices = new List<int>();
-            
+
             //*******************************************************
             // Dynamic Weight algorithm
             foreach (var inst in instances)
@@ -56,7 +56,7 @@ namespace paa_hw4
 
             //*******************************************************
             // Cooling coefficient
-            Console.WriteLine("*********** COOLING COEFF *****************");
+            /*Console.WriteLine("*********** COOLING COEFF *****************");
             for (var i = 0.5; i <= 1; i += 0.05)
             {
                 double avgMistake = 0;
@@ -155,10 +155,37 @@ namespace paa_hw4
                 Console.WriteLine("Mistake: " + avgFinal);
                 Console.WriteLine("Time: " + timeFinal);
                 Console.WriteLine();
-            }
-           
+            }*/
 
-            
+            Console.WriteLine("*********** TESTING *****************");
+            double avgMistake = 0;
+            double avgTime = 0;
+            for (var j = 0; j < instances.Count; j++)
+            {
+                var watchSa = new Stopwatch();
+                watchSa.Start();
+
+                var sa = new SimulatedAnnealing(instances[j], 350, 10, 0.95, 150);
+                var price = sa.SaSolver();
+
+                watchSa.Stop();
+
+                avgTime += watchSa.Elapsed.TotalMilliseconds;
+
+                var mistake = Math.Abs((double) (dynamicWeightPrices[j] - price) /
+                                       (double) dynamicWeightPrices[j]);
+                avgMistake += mistake;
+            }
+
+
+            var timeFinal = Math.Round((double) (avgTime / instances.Count), 4);
+            var avgFinal = Math.Round((double) (avgMistake / instances.Count) * 100, 4);
+
+            // Count Mistake and time
+            Console.WriteLine("Mistake: " + avgFinal);
+            Console.WriteLine("Time: " + timeFinal);
+            Console.WriteLine();
+
 
             //*******************************************************
             // Check mistake (OPT - PRICE)/OPT * 100 = X%
