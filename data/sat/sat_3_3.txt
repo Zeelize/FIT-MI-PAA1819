@@ -1,0 +1,8 @@
+c instance by G2
+c solution = 010
+c Known solution cost is 126
+p cnf 3 3
+w 2 58 66
+-2 -3 1 0
+3 -2 -1 0
+2 3 1 0
