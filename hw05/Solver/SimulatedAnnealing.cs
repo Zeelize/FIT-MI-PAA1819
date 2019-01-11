@@ -14,9 +14,9 @@ namespace paa_hw5.Solver
         
         public SimulatedAnnealing() {
             INIT_TEMP = 1500;
-            FINAL_TEMP = 5;
+            FINAL_TEMP = 10;
             COOLING_CONSTANT = 0.95;
-            STEPS = 200;
+            STEPS = 100;
         }
         
         public SimulatedAnnealing(double it, double ft, double cc, int s)
@@ -38,6 +38,7 @@ namespace paa_hw5.Solver
             var temp = INIT_TEMP;
             while (!Frozen(temp))
             {
+                //Console.WriteLine(oldSol.CalculateWeight());
                 for (var i = 0; i < STEPS; i++)
                 {
                     // find new state

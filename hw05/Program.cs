@@ -21,20 +21,16 @@ namespace paa_hw5
             }
 
             // solve formula with brute-force
-            var bruteResult = BruteForce.Solve(formula);
+            //var bruteResult = BruteForce.Solve(formula);
             
-            Console.WriteLine(bruteResult);
+            //Console.WriteLine(bruteResult);
 
             // solve formula with simulated annealing
             var saSolver = new SimulatedAnnealing();
 
-            for (int i = 0; i < 20; i++)
-            {
-                var saResult = saSolver.Solve(formula);
+            var saResult = saSolver.Solve(formula);
+            Console.WriteLine(saResult);
             
-                Console.WriteLine(saResult);   
-            }
-
             // todo count error and time
             // todo print results
         }
