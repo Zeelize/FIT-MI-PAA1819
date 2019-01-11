@@ -13,10 +13,10 @@ namespace paa_hw5.Solver
         // ReSharper restore InconsistentNaming
         
         public SimulatedAnnealing() {
-            INIT_TEMP = 1000;
-            FINAL_TEMP = 10;
-            COOLING_CONSTANT = 0.9;
-            STEPS = 100;
+            INIT_TEMP = 1500;
+            FINAL_TEMP = 5;
+            COOLING_CONSTANT = 0.95;
+            STEPS = 200;
         }
         
         public SimulatedAnnealing(double it, double ft, double cc, int s)
@@ -33,8 +33,7 @@ namespace paa_hw5.Solver
             var oldSol = new Solution(formula);
             var newSol = new Solution(formula);
             
-            oldSol.SetRandomValidRating();
-            var globalMax = oldSol.EvaluateFormula() ? oldSol.CalculateWeight() : 0;
+            var globalMax = oldSol.SetRandomValidRating() ? oldSol.CalculateWeight() : 0;
             
             var temp = INIT_TEMP;
             while (!Frozen(temp))

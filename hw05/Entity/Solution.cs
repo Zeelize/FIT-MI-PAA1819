@@ -64,14 +64,15 @@ namespace paa_hw5.Entity
             }
         }
         
-        public void SetRandomValidRating() {
+        public bool SetRandomValidRating() {
             for(var i = 0; i < 1000; i++) {
                 SetRandomRating();
 
-                if(EvaluateFormula()) return;
+                if(EvaluateFormula()) return true;
             }
             
             // If not valid, just go with it
+            return false;
         }
 
         public void SetRandomNeighbour()
