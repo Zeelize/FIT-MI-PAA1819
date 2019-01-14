@@ -83,6 +83,15 @@ namespace paa_hw5.Entity
             _rating[i] = !_rating[i];
         }
         
+        public void SetRandomValidNeighbour()
+        {
+            for(var i = 0; i < 500; i++) {
+                SetRandomNeighbour();
+
+                if(EvaluateFormula()) return;
+            }
+        }
+        
         public int CalculateWeight()
         {
             var weight = 0;

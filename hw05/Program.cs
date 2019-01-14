@@ -29,6 +29,7 @@ namespace paa_hw5
             var saSolver = new SimulatedAnnealing();
 
             var saResult = saSolver.Solve(formula);
+            Console.WriteLine("result");
             Console.WriteLine(saResult);
             
             // todo count error and time
