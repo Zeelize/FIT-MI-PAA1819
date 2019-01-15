@@ -13,10 +13,10 @@ namespace paa_hw5.Solver
         // ReSharper restore InconsistentNaming
         
         public SimulatedAnnealing() {
-            INIT_TEMP = 1500;
+            INIT_TEMP = 400;
             FINAL_TEMP = 10;
-            COOLING_CONSTANT = 0.95;
-            STEPS = 100;
+            COOLING_CONSTANT = 0.90;
+            STEPS = 400;
         }
         
         public SimulatedAnnealing(double it, double ft, double cc, int s)
